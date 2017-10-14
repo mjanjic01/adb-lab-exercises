@@ -1,0 +1,5 @@
+client/*
+server/*
+server/public/*
+node_modules/*
+.git
