@@ -18,8 +18,7 @@ dotenv.config();
 /**
  * Controller (Route handlers)
  */
-const home = require('./controllers/index');
-// const controllerName = require('./controllers/controllerName');
+const api = require('./api');
 
 /**
  * Create Express server.
@@ -37,10 +36,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, './public')));
 
 /**
- * Primary app routes.
+ * Import API Routes
  */
-app.use('/', home);
-// app.use('/route', controllerName);
+app.use('/api', api)
 
 app.get('*', function(req, res) {
   res.redirect('/');
