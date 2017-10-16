@@ -1,25 +1,58 @@
 <template>
   <div>
-    add somes
+    <movie-form
+      v-model="movie"
+      :status="movieFormStatus"
+      @submit="onFormSubmit"
+    />
   </div>
 </template>
 
 <script>
+  import MovieForm from 'components/forms/MovieForm.vue';
+
   export default {
     components: {
-    },
-
-    data() {
-      return {
-      };
-
+      MovieForm
     },
 
     computed: {
     },
 
+    data() {
+      return {
+        movie: {
+          title: '',
+          categories: [],
+          summary: '',
+          description: ''
+        },
+        movieFormStatus: ''
+      }
+    },
     methods: {
-
+      onFormSubmit() {
+        this.movieFormStatus = 'PENDING';
+        fetch('/api/movies', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            title: this.movie.title,
+            categories: this.movie.categories.join('; '),
+            summary: this.movie.summary,
+            description: this.movie.description
+          })
+        }).then(() => {
+          this.movieFormStatus = 'SUCCESS';
+          setTimeout(() => {
+            this.movieFormStatus = '';
+          }, 3500);
+        }).catch(() => {
+          this.movieFormStatus = 'FAIL';
+        });
+      }
     }
   };
 </script>
