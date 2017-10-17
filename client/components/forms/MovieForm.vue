@@ -5,26 +5,22 @@
         <label>Title</label>
         <md-input
           v-model="title"
-          @change="update"
         ></md-input>
       </md-input-container>
       <md-chips
         v-model="categories"
-        @change="update"
         md-input-placeholder="Add a category"
       ></md-chips>
       <md-input-container md-clearable>
         <label>Summary</label>
         <md-input
           v-model="summary"
-          @change="update"
         ></md-input>
       </md-input-container>
       <md-input-container md-clearable>
         <label>Description</label>
         <md-input
           v-model="description"
-          @change="update"
         ></md-input>
       </md-input-container>
       <span :class="$style.error" v-show="!validateForm">Categories are required</span>
@@ -50,10 +46,10 @@
 
     computed: {
       validateForm() {
-        const isTitleValid = this.value.title.length > 0;
-        const isCategoriesValid = this.value.categories.length > 0;
-        const isSummaryValid = this.value.summary.length > 0;
-        const isDescriptionValid = this.value.description.length > 0;
+        const isTitleValid = this.title.length > 0;
+        const isCategoriesValid = this.categories.length > 0;
+        const isSummaryValid = this.summary.length > 0;
+        const isDescriptionValid = this.description.length > 0;
 
         return isTitleValid && isCategoriesValid && isSummaryValid && isDescriptionValid ? true : false;
       },
@@ -78,17 +74,13 @@
     methods: {
       submit() {
         if (this.validateForm) {
-          this.$emit('submit');
+          this.$emit('submit', {
+            title: this.title,
+            categories: this.categories,
+            summary: this.summary,
+            description: this.description
+          });
         }
-      },
-
-      update() {
-        this.$emit('input', {
-          title: this.title,
-          categories: this.categories,
-          summary: this.summary,
-          description: this.description
-        });
       }
     }
   };
