@@ -28,7 +28,7 @@
         ></md-input>
       </md-input-container>
       <span :class="$style.error" v-show="!validateForm">Categories are required</span>
-      <md-button class="md-raised md-primary" :disabled="!validateForm || isPending" @click="submit">Primary</md-button>
+      <md-button class="md-raised md-primary" :disabled="!validateForm || isPending" @click="submit">Submit</md-button>
       <md-spinner v-if="isPending" md-indeterminate class="md-accent"></md-spinner>
       <span v-if="isSuccess">Movie added successfully!</span>
     </form>
@@ -73,7 +73,7 @@
         categories: this.value.categories,
         summary: this.value.summary,
         description: this.value.description
-      }
+      };
     },
     methods: {
       submit() {

@@ -6,6 +6,52 @@ const router = Router();
 
 client.connect();
 
+
+/* POST movies query */
+router.post('/movies/search', (req, res, next) => {
+  const OPERATOR_MAP = {
+    AND: '&',
+    OR: '|'
+  };
+
+  const {
+    searchTerms,
+    operator
+  } = req.body;
+  console.log(searchTerms, operator);
+
+  if (!searchTerms || !operator) {
+    res.sendStatus(400);
+
+  } else {
+    // searchTerms = '"Legend of Tarzan" "Lord of" Dance';
+    const patterns = searchTerms.split('"').filter(term => term.trim().length).reduce((acc, val, index) => {
+      const phrases = [
+        '(',
+        val.trim().split(' ').filter(term => term.trim().length).join(` ${OPERATOR_MAP.AND} `),
+        ')'].join('');
+      return acc.concat(phrases)
+    }, []).join(` ${OPERATOR_MAP[operator]} `);
+
+    const query =
+      `SELECT movieId,
+        ts_headline(title, to_tsquery('english', '${patterns}')),
+        ts_headline(description, to_tsquery('english', '${patterns}')),
+        title,
+        categories,
+        summary,
+        description
+      FROM movie;`;
+
+    client.query(query, (err, { rows }) => {
+      res.status(200).send({
+        query,
+        rows
+      });
+    });
+  }
+});
+
 /* POST movies */
 router.post('/movies', (req, res, next) => {
   const {
