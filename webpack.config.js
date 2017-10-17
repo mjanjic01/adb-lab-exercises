@@ -30,6 +30,7 @@ const config = {
   },
 
   resolve: {
+    extensions: ['.js', '.vue'],
     modules: [
       path.resolve(__dirname),
       path.resolve(__dirname, 'client'),
@@ -40,18 +41,6 @@ const config = {
 
   module: {
     rules: [{
-      test: /\.(jpg|png|svg|eot|ttf|woff)$/,
-      use: {
-        loader: 'file-loader'
-      }
-    }, {
-      test: /\.(js|jsx)$/,
-      loader: 'babel-loader'
-    }, {
-      test: /\.(css|scss)$/,
-      use: ExtractTextPlugin.extract(styleLoader)
-
-    }, {
       test: /\.vue$/,
       loader: 'vue-loader',
       options: {
@@ -63,6 +52,19 @@ const config = {
           scss: ExtractTextPlugin.extract(styleLoader)
         }
       }
+    }, {
+      test: /\.(jpg|png|svg|eot|ttf|woff)$/,
+      use: {
+        loader: 'file-loader'
+      }
+    }, {
+      test: /\.(js|jsx)$/,
+      exclude: /(node_modules)/,
+      loader: 'babel-loader'
+    }, {
+      test: /\.(css|scss)$/,
+      use: ExtractTextPlugin.extract(styleLoader)
+
     }]
   },
 
