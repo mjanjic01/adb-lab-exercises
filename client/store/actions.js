@@ -1,4 +1,4 @@
-import * as types from './mutation-types'
+import * as types from './mutation-types';
 
 export default {
   fetchMovies({ commit }, search) {
@@ -9,9 +9,8 @@ export default {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(search)
-    }).then((resp) => {
-      return resp.json();
-    }).then(({ query, rows }) => {
+    }).then(resp => resp.json())
+    .then(({ query, rows }) => {
       commit(types.SEARCH_SUCCESS, {
         query,
         rows
