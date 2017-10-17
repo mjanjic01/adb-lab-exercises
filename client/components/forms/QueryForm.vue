@@ -2,21 +2,23 @@
   <div>
     <form @submit.stop.prevent="submit">
       <div :class="$style.search">
-        <md-input-container md-clearable :class="$style.input">
-          <label>Search terms</label>
-          <md-input
-            v-model="searchTerms"
-            @change="update"
-          ></md-input>
+        <md-input-container>
+          <label>Search</label>
+          <md-autocomplete v-model="searchTerms"
+                              print-attribute="title"
+                              :max-res="5"
+                              :debounce="500"
+                              :fetch="fetchOptions">
+          </md-autocomplete>
         </md-input-container>
         <md-button :class="$style.button" class="md-raised md-primary" :disabled="!validateForm || isLoading" @click="submit">Submit</md-button>
       </div>
       </md-layout>
       <div>
-        <md-radio v-model="operator" @input="update" id="operatorAnd" name="queryOperatorGroup" md-value="AND">AND</md-radio>
-        <md-radio v-model="operator" @input="update" id="operatorOr" name="queryOperatorGroup" md-value="OR">OR</md-radio>
+        <md-radio v-model="operator" id="operatorAnd" name="queryOperatorGroup" md-value="AND">AND</md-radio>
+        <md-radio v-model="operator" id="operatorOr" name="queryOperatorGroup" md-value="OR">OR</md-radio>
       </div>
-      <span :class="$style.error" v-show="!validateForm">Categories are required</span>
+      <span :class="$style.error" v-show="!validateForm">Please enter a search query</span>
       <md-spinner v-if="isLoading" md-indeterminate class="md-accent"></md-spinner>
       <span v-if="isLoaded">Query generated successfully!</span>
     </form>
@@ -44,8 +46,8 @@
 
     computed: {
       validateForm() {
-        const isSearchTermValid = this.value.searchTerms.length > 0;
-        const isOperatorValid = this.value.operator === 'AND' || this.value.operator === 'OR';
+        const isSearchTermValid = this.searchTerms.length > 0;
+        const isOperatorValid = this.operator === 'AND' || this.operator === 'OR';
 
         return isSearchTermValid && isOperatorValid ? true : false;
       }
@@ -60,15 +62,15 @@
     methods: {
       submit() {
         if (this.validateForm) {
-          this.$emit('submit');
+          this.$emit('submit', {
+            searchTerms: this.searchTerms,
+            operator: this.operator
+          });
         }
       },
 
-      update() {
-        this.$emit('input', {
-          searchTerms: this.searchTerms,
-          operator: this.operator
-        });
+      fetchOptions(search) {
+        return fetch(`/api/movies/suggestions/${encodeURI(search.q.trim())}`).then(resp => resp.json());
       }
     }
   };

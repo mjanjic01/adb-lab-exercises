@@ -31,7 +31,7 @@
       }
     },
     methods: {
-      onFormSubmit() {
+      onFormSubmit(formData) {
         this.movieFormStatus = 'PENDING';
         fetch('/api/movies', {
           method: 'POST',
@@ -39,10 +39,10 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            title: this.movie.title,
-            categories: this.movie.categories.join('; '),
-            summary: this.movie.summary,
-            description: this.movie.description
+            title: formData.title.trim(),
+            categories: formData.categories.map(category => category.trim()).join('; '),
+            summary: formData.summary.trim(),
+            description: formData.description.trim()
           })
         }).then(() => {
           this.movieFormStatus = 'SUCCESS';

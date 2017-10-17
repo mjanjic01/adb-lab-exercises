@@ -10,22 +10,20 @@
       <label>Query string:</label>
       <md-textarea :class="$style.textarea" v-model="getQuery" readonly></md-textarea>
     </md-input-container>
-    <md-table>
+    <md-table :class="$style.results">
       <md-table-header>
         <md-table-row>
           <md-table-head>Title</md-table-head>
-          <md-table-head>Categories</md-table-head>
-          <md-table-head>Summary</md-table-head>
           <md-table-head>Description</md-table-head>
+          <md-table-head>Rank</md-table-head>
         </md-table-row>
       </md-table-header>
 
       <md-table-body>
         <md-table-row v-for="row in getMovies" :key="row.movieId">
-          <md-table-cell>{{row.title}}</md-table-cell>
-          <md-table-cell>{{row.categories}}</md-table-cell>
-          <md-table-cell>{{row.summary}}</md-table-cell>
-          <md-table-cell>{{row.description}}</md-table-cell>
+          <md-table-cell><div v-html="row.titleheadline"></div></md-table-cell>
+          <md-table-cell><div v-html="row.descriptionheadline"></div></md-table-cell>
+          <md-table-cell>{{row.rank}}</md-table-cell>
         </md-table-row>
       </md-table-body>
     </md-table>
@@ -59,8 +57,8 @@
       }
     },
     methods: {
-      onFormSubmit() {
-        this.fetchMovies(this.queryForm);
+      onFormSubmit(formData) {
+        this.fetchMovies(formData);
       },
 
       ...mapActions([
@@ -75,5 +73,13 @@
     // no option to configure textarea like this
     resize: vertical !important;
     min-height: 200px !important;
+    font-family: monospace !important;
+    font-size: 16px !important;
+    color: #040404 !important;
+  }
+
+  .results {
+    overflow: auto;
+    max-height: 500px;
   }
 </style>
