@@ -2,7 +2,13 @@
   "parser": "babel-eslint",
   "extends": "airbnb-base",
   "plugins": [
-      "import",
-      "flowtype"
-  ]
+      "import"
+  ],
+  "env": {
+    "node": true,
+    "browser": true
+  },
+  "rules": {
+    "comma-dangle": 0
+  }
 }
