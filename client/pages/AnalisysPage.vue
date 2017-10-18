@@ -1,12 +1,15 @@
 <template>
   <div>
-    analyze some
+    <daterange-picker @filter:update="dateFilterUpdate"/>
   </div>
 </template>
 
 <script>
+  import DaterangePicker from 'components/DaterangePicker.vue';
+
   export default {
     components: {
+      DaterangePicker
     },
 
     data() {
@@ -19,7 +22,9 @@
     },
 
     methods: {
-
+      dateFilterUpdate(dateInterval) {
+        console.log(dateInterval);
+      }
     }
   };
 </script>
