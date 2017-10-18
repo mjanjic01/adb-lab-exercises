@@ -1,10 +1,7 @@
 const { Router } = require('express');
-const { Client } = require('pg');
+const db = require('../db');
 
-const client = new Client();
 const router = Router();
-
-client.connect();
 
 /* POST movies */
 router.post('/movies', (req, res) => {
@@ -26,7 +23,7 @@ router.post('/movies', (req, res) => {
       description
     ];
 
-    client.query(query, values)
+    db.query(query, values)
     .then(({ rows }) => res.status(201).send(rows))
     .catch(err => res.status(400).send(err));
   }
@@ -49,7 +46,7 @@ router.post('/movies/search', (req, res) => {
   } else {
     // searchTerms = '"Legend of Tarzan" "Lord of" Dance';
 
-    // mistery 🙈
+    // mystery 🙈
     const patterns = searchTerms.split('"').filter(term => term.trim().length).reduce((acc, val) => {
       const filteredTerms = val.trim().split(' ').filter(term => term.trim().length);
       const phrases = filteredTerms.length > 1 ? ['(', filteredTerms.join(` ${OPERATOR_MAP.AND} `), ')'].join('') : filteredTerms;
@@ -67,7 +64,7 @@ router.post('/movies/search', (req, res) => {
       FROM movie
       ORDER BY rank DESC;`;
 
-    client.query(query, [patterns])
+    db.query(query, [patterns])
       .then(({ rows }) => res.status(200).send({
         rows,
         query: query.replace(/\$1/g, `'${patterns}`)
@@ -88,7 +85,7 @@ router.get('/movies/suggestions/:search', (req, res) => {
   } else {
     const query = 'SELECT title FROM movie WHERE similarity(movie.title, $1) > 0.2 LIMIT 5;';
 
-    client.query(query, [search])
+    db.query(query, [search])
     .then(({ rows }) => res.status(200).send(rows))
     .catch(err => res.status(400).send(err));
   }
