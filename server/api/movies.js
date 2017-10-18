@@ -24,8 +24,7 @@ router.post('/movies', (req, res) => {
     ];
 
     db.query(query, values)
-    .then(({ rows }) => res.status(201).send(rows))
-    .catch(err => res.status(400).send(err));
+      .then(({ rows }) => res.status(201).send(rows));
   }
 });
 
@@ -36,22 +35,41 @@ router.post('/movies/search', (req, res) => {
     OR: '|'
   };
 
-  const {
-    searchTerms,
-    operator
-  } = req.body;
+  const searchTerms = req.body.searchTerms.trim();
+  const operator = req.body.operator;
 
   if (!searchTerms || !operator) {
     res.sendStatus(400);
   } else {
     // searchTerms = '"Legend of Tarzan" "Lord of" Dance';
 
-    // mystery 🙈
-    const patterns = searchTerms.split('"').filter(term => term.trim().length).reduce((acc, val) => {
-      const filteredTerms = val.trim().split(' ').filter(term => term.trim().length);
-      const phrases = filteredTerms.length > 1 ? ['(', filteredTerms.join(` ${OPERATOR_MAP.AND} `), ')'].join('') : filteredTerms;
-      return acc.concat(phrases);
-    }, []).join(` ${OPERATOR_MAP[operator]} `);
+
+    /* eslint-disable no-useless-escape */
+    const phrases = (searchTerms
+      .match(/\"(.+?)\"/g) || [])
+      .map(term => term.replace(/\"/g, '').trim());
+    const regularSearchTerms = searchTerms
+      .replace(/\"(.*?)\"/g, ' ')
+      .split(' ')
+      .map(term => term.trim())
+      .filter(term => term.length);
+    /* eslint-enable no-useless-escape */
+
+    const patterns = regularSearchTerms.concat(
+      phrases.reduce((acc, phrase) => {
+        const phraseTokens = phrase
+          .split(' ')
+          .map(token => token.trim())
+          .filter(token => token.length);
+        const logicalPhrase = phraseTokens.length > 1 ? ['(', phraseTokens.join(` ${OPERATOR_MAP.AND} `), ')'].join('') : phraseTokens[0];
+        return acc.concat(logicalPhrase);
+      }, [])
+    ).join(` ${OPERATOR_MAP[operator]} `);
+
+    const searchAudit = regularSearchTerms
+      .concat(phrases)
+      .map(phrase => `'${phrase}'`)
+      .join(` ${OPERATOR_MAP[operator]} `);
 
     const query =
       `SELECT
@@ -68,9 +86,10 @@ router.post('/movies/search', (req, res) => {
       .then(({ rows }) => res.status(200).send({
         rows,
         query: query.replace(/\$1/g, `'${patterns}`)
-      })).catch((err) => {
+      })).then(() => {
+        console.log(searchAudit);
+      }).catch((err) => {
         res.status(400).send(err);
-        console.log(err);
       });
   }
 });
@@ -86,8 +105,8 @@ router.get('/movies/suggestions/:search', (req, res) => {
     const query = 'SELECT title FROM movie WHERE similarity(movie.title, $1) > 0.2 LIMIT 5;';
 
     db.query(query, [search])
-    .then(({ rows }) => res.status(200).send(rows))
-    .catch(err => res.status(400).send(err));
+      .then(({ rows }) => res.status(200).send(rows))
+      .catch(err => res.status(400).send(err));
   }
 });
 

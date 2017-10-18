@@ -20,7 +20,6 @@
       </div>
       <span :class="$style.error" v-show="!validateForm">Please enter a search query</span>
       <md-spinner v-if="isLoading" md-indeterminate class="md-accent"></md-spinner>
-      <span v-if="isLoaded">Query generated successfully!</span>
     </form>
   </div>
 </template>
