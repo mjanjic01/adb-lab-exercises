@@ -83,7 +83,6 @@ if (!DEV) {
     ...config.plugins,
     new webpack.optimize.UglifyJsPlugin()
   ];
-
 } else {
   config.devtool = 'source-map';
   config.stats = 'errors-only';

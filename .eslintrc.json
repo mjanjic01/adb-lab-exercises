@@ -9,6 +9,7 @@
     "browser": true
   },
   "rules": {
-    "comma-dangle": 0
+    "comma-dangle": 0,
+    "no-param-reassign": [1, {"props": false}]
   }
 }

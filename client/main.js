@@ -10,12 +10,12 @@ import store from './store';
 const APP_CONTAINER_ID = 'app';
 const appContainer = document.getElementById(APP_CONTAINER_ID);
 
-Vue.use(VueMaterial)
+Vue.use(VueMaterial);
 Vue.use(VueRouter);
 
 new Vue({ // eslint-disable-line no-new
   el: appContainer,
-  render: (renderFunc) => renderFunc(App),
+  render: renderFunc => renderFunc(App),
   store,
   router,
   data() {
