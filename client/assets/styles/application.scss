@@ -1,3 +1,9 @@
 @import '~vue-material/dist/vue-material.css';
 @import '~pikaday/scss/pikaday';
 
+
+.container {
+  max-width: 1200px;
+  padding: 0 16px;
+  margin: 0 auto;
+}
