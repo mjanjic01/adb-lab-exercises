@@ -11,7 +11,7 @@
                               :fetch="fetchOptions">
           </md-autocomplete>
         </md-input-container>
-        <md-button :class="$style.button" class="md-raised md-primary" :disabled="!validateForm || isLoading" @click="submit">Submit</md-button>
+        <md-button :class="$style.button" class="md-raised md-primary" :disabled="isLoading || !validateForm" @click="submit">Submit</md-button>
       </div>
       </md-layout>
       <div>

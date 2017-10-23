@@ -26,8 +26,8 @@
           </router-link>
         </md-list-item>
         <md-list-item>
-          <router-link exact :to="'/analisys'">
-            <md-icon>timeline</md-icon> <span>Analisys</span>
+          <router-link exact :to="'/analysis'">
+            <md-icon>timeline</md-icon> <span>Analysis</span>
           </router-link>
         </md-list-item>
       </md-list>
