@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <movie-form
       v-model="movie"
       :status="movieFormStatus"
