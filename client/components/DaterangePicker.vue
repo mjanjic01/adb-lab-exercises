@@ -14,8 +14,9 @@
 </template>
 
 <script>
-  import DatePicker from 'components/core/DatePicker.vue';
+  import moment from 'moment';
 
+  import DatePicker from 'components/core/DatePicker.vue';
 
   export default {
     components: {
@@ -55,9 +56,9 @@
 
     methods: {
       updateSelectedDate(startDate, endDate) {
-        this.$emit('filter:update', {
-          startDate,
-          endDate
+        this.$emit('daterange:update', {
+          startTime: moment(startDate).format(),
+          endTime: moment(endDate).endOf('day').format()
         });
       },
 
