@@ -72,7 +72,7 @@
           })
         }).then(resp => resp.json())
           .then(data => {
-            this.rows = data.rows;
+            this.rows = data.rows.length > 0 ? data.rows : null;
           }).catch((e) => {
             console.log(e); // ignore
           });
