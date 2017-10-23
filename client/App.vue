@@ -63,10 +63,4 @@
   .main {
     min-height: 100vh;
   }
-
-  .content {
-    max-width: 800px;
-    padding: 0 16px;
-    margin: 0 auto;
-  }
 </style>
