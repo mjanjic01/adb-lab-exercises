@@ -54,6 +54,7 @@ router.post('/movies/search', (req, res) => {
       .map(term => term.trim())
       .filter(term => term.length);
     /* eslint-enable no-useless-escape */
+
     const patterns = regularSearchTerms.concat(
       phrases.reduce((acc, phrase) => {
         const phraseTokens = phrase
@@ -73,7 +74,7 @@ router.post('/movies/search', (req, res) => {
 
     const queryFTS = patterns.reduce((acc, pattern, index) =>
       acc.concat(`weighted_tsv @@ to_tsquery('english', $${index + 2})`),
-    []).join(` ${operator} `);
+    []).join(' OR ');
     const query =
       `SELECT
         movieId,
@@ -108,7 +109,7 @@ router.get('/movies/suggestions/:search', (req, res) => {
   if (!search) {
     res.status(200).send(search);
   } else {
-    const query = 'SELECT title FROM movie WHERE similarity(movie.title, $1) > 0.2 LIMIT 5;';
+    const query = 'SELECT title FROM movie ORDER BY similarity(movie.title, $1) DESC LIMIT 5;';
 
     db.query(query, [search])
       .then(({ rows }) => res.status(200).send(rows))

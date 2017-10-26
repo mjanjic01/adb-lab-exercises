@@ -10,56 +10,56 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 --
--- Name: fuzzystrmatch; Type: EXTENSION; Schema: -; Owner: 
+-- Name: fuzzystrmatch; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS fuzzystrmatch WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION fuzzystrmatch; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION fuzzystrmatch; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION fuzzystrmatch IS 'determine similarities and distance between strings';
 
 
 --
--- Name: pg_trgm; Type: EXTENSION; Schema: -; Owner: 
+-- Name: pg_trgm; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION pg_trgm; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION pg_trgm; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION pg_trgm IS 'text similarity measurement and index searching based on trigrams';
 
 
 --
--- Name: tablefunc; Type: EXTENSION; Schema: -; Owner: 
+-- Name: tablefunc; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS tablefunc WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION tablefunc; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION tablefunc; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION tablefunc IS 'functions that manipulate whole tables, including crosstab';
@@ -68,20 +68,20 @@ COMMENT ON EXTENSION tablefunc IS 'functions that manipulate whole tables, inclu
 SET search_path = public, pg_catalog;
 
 --
--- Name: film_weighted_tsv_trigger(); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: film_weighted_tsv_trigger(); Type: FUNCTION; Schema: public; Owner: postgres (1, 0.4, 0.2, 0.1)
 --
 
 CREATE FUNCTION film_weighted_tsv_trigger() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$  
-begin  
+    AS $$
+begin
   new.weighted_tsv :=
      setweight(to_tsvector(coalesce(new.title,'')), 'A')    ||
 		    setweight(to_tsvector(coalesce(new.categories,'')), 'B')  ||
 		    setweight(to_tsvector(coalesce(new.summary,'')), 'C') ||
 		    setweight(to_tsvector(coalesce(new.description,'')), 'D');
   return new;
-end  
+end
 $$;
 
 
@@ -92,7 +92,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: log; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: log; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
 
 CREATE TABLE log (
@@ -105,7 +105,7 @@ CREATE TABLE log (
 ALTER TABLE log OWNER TO postgres;
 
 --
--- Name: movie; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: movie; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
 
 CREATE TABLE movie (
@@ -1280,7 +1280,7 @@ SELECT pg_catalog.setval('"searchLog_id_seq"', 75, true);
 
 
 --
--- Name: movie_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: movie_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace:
 --
 
 ALTER TABLE ONLY movie
@@ -1288,7 +1288,7 @@ ALTER TABLE ONLY movie
 
 
 --
--- Name: searchLog_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: searchLog_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace:
 --
 
 ALTER TABLE ONLY log
@@ -1296,7 +1296,7 @@ ALTER TABLE ONLY log
 
 
 --
--- Name: weighted_tsv_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: weighted_tsv_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace:
 --
 
 CREATE INDEX weighted_tsv_idx ON movie USING gist (weighted_tsv);
