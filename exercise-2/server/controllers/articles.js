@@ -10,7 +10,7 @@ const db = require('../db');
 router.get('/', async (req, res) => {
   const articles = db.getCollection('articles');
   res.render('articles', {
-    articles: await articles.find().limit(10).toArray()
+    articles: await articles.find().sort({ publishedAt: -1 }).limit(10).toArray()
   });
 });
 
