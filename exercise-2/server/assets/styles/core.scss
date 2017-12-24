@@ -1,0 +1,26 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: $black-color;
+  background-color: $white-color;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 540px;
+
+  @include media(mobile) {
+    max-width: 540px;
+  }
+
+  @include media(tablet) {
+    max-width: 720px;
+  }
+
+  @include media(desktop) {
+    max-width: 960px;
+  }
+
+  @include media(large) {
+    max-width: 1140px;
+  }
+}

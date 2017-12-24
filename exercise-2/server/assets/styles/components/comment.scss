@@ -1,0 +1,17 @@
+.comment {
+
+  &:not(:last-child) {
+    padding-bottom: 4px;
+    border-bottom: 1px dashed $black-color;
+  }
+
+  & &__text {
+    margin-bottom: 4px;
+  }
+
+  & &__time {
+    margin-top: 0;
+    font-size: 12px;
+    text-align: right;
+  }
+}
