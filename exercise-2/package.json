@@ -6,12 +6,16 @@
   "author": "Matej Janjic <matej.janjic@infinum.co>",
   "license": "ISC",
   "scripts": {
-    "crawl": "node crawler"
+    "crawl": "crawler"
   },
   "devDependencies": {
     "eslint": "^4.14.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
     "nodemon": "^1.14.3"
+  },
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "mongodb": "^3.0.0"
   }
 }
