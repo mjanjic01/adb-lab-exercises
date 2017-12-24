@@ -1,7 +1,7 @@
 {
-  "name": "js-nmbpi-web",
+  "name": "adb-exercise-1",
   "version": "1.0.0",
-  "description": "NMIBP web app",
+  "description": "ADB lab exercise No. 1",
   "main": "server/index.js",
   "scripts": {
     "build:client": "webpack --progress",

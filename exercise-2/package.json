@@ -1,0 +1,8 @@
+{
+  "name": "adb-exercise-2",
+  "version": "1.0.0",
+  "description": "ADB lab exercise No. 2",
+  "main": "index.js",
+  "author": "Matej Janjic <matej.janjic@infinum.co>",
+  "license": "ISC"
+}
