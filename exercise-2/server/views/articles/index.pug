@@ -1,0 +1,28 @@
+extends ../layouts/application.pug
+
+block content
+  .articles-container
+    each article in articles
+      .article(id=article._id)
+        .article__content
+          img.article__image(src=article.image)
+          div
+            h3.article__title #{article.title}
+            p.article__description #{article.description}
+            p.article__author Author: #{article.author}
+
+        if article.comments
+          hr
+          .article__comments
+            h4.article__comments-heading Comments
+            each comment in article.comments
+              .article__comment.comment
+                p.comment__text #{comment.text}
+                p.comment__time #{comment.time.toISOString()}
+
+        hr
+
+        form.comment-form(action=`/articles/${article._id}/comments`, method="post")
+          textarea.comment-form__textarea(required="true", name="text", placeholder="Write your comment here...", maxlength="255", spellcheck="true")
+          button.comment-form__button(type="submit") Submit
+
