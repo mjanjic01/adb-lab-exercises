@@ -5,3 +5,7 @@
 
 ### Exercise 2
   NoSQL - MongoDB
+
+Requirements:
+  - npm v4+ or yarn
+  - node 7+
