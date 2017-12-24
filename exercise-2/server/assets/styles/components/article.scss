@@ -9,11 +9,14 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: space-between;
 
     @include media(tablet up) {
       flex-direction: row;
     }
+  }
+
+  & &__info {
+    width: 100%;
   }
 
   & &__image {
