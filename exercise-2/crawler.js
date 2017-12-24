@@ -66,7 +66,8 @@ function requestMultiplePages(pages) {
         title: article.title,
         description: article.description,
         author: article.author,
-        image: article.urlToImage
+        image: article.urlToImage,
+        publishedAt: article.publishedAt
       })));
 }
 
