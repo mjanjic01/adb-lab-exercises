@@ -5,10 +5,11 @@ body {
 }
 
 .container {
-  margin: 0 auto;
+  margin: 200px auto 0;
   max-width: 540px;
 
-  @include media(mobile) {
+  @include media(mobile up) {
+    margin-top: 75px;
     max-width: 540px;
   }
 
