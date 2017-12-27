@@ -12,7 +12,9 @@
   }
 
   & &__button {
+    @include interactable($aliceblue-color);
+
+    width: 120px;
     -webkit-appearance: none;
-    background-color: $aliceblue-color;
   }
 }
