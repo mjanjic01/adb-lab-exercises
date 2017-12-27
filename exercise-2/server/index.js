@@ -56,6 +56,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/articles', articles);
 // app.use('/route', controllerName);
 
+
+app.get('*', (req, res) => {
+  res.redirect('/articles');
+});
+
 /**
  * Error Handler for other errors.
  */
