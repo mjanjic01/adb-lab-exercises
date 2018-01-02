@@ -1,6 +1,6 @@
 /* global emit */
 /* eslint-disable no-underscore-dangle, no-var, prefer-arrow-callback,
-                  func-names, prefer-destructuring, no-param-reassign */
+                  func-names, prefer-destructuring, no-param-reassign, object-shorthand */
 
 const express = require('express');
 const { ObjectId } = require('mongodb');
@@ -63,7 +63,7 @@ router.get('/frequency', async (req, res) => {
         return acc;
       }, {});
     }, {
-      finalize: function (key, reducedValue) { // eslint-disable-line object-shorthand
+      finalize: function (key, reducedValue) { // FINALIZE
         const ordered = Object.keys(reducedValue).reduce(function (acc, word) {
           acc.push([word, reducedValue[word]]);
           return acc;
