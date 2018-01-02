@@ -38,7 +38,7 @@ router.get('/hot', async (req, res) => {
 });
 
 /**
- *  GET most commented articles page.
+ *  GET word frequency per author.
  */
 router.get('/frequency', async (req, res) => {
   const articles = db.getCollection('articles');
