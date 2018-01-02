@@ -1,9 +1,8 @@
 .article {
-  padding: 8px;
+  padding: 16px;
   margin-bottom: 20px;
-  box-shadow: 4px 4px 4px 4px $shadow-color;
   background-color: $gray-color;
-
+  border-radius: 4px;
 
   & &__content {
     display: flex;

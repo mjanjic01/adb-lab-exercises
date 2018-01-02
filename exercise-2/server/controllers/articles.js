@@ -51,12 +51,9 @@ router.get('/frequency', async (req, res) => {
         description: this.description
       });
     }, function (key, values) {
-      if (values.title) {
-        return 0;
-      }
       const pattern = /(?=\S*)([a-zA-Z0-9'-]+)/g;
 
-      const allWords = values.reduce(function (acc, val) {
+      const allWords = (Array.isArray(values) ? values : [values]).reduce(function (acc, val) {
         return [acc, val.title, val.description].join(' ');
       }, '');
 
