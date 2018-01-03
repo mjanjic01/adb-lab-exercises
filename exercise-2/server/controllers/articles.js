@@ -23,17 +23,35 @@ router.get('/', async (req, res) => {
  */
 router.get('/hot', async (req, res) => {
   const articles = db.getCollection('articles');
+  await articles
+    .mapReduce(function () {
+      var value = this;
+      value.commentCount = (this.comments || []).length;
+
+      if (value.commentCount > 0) {
+        emit(value, value.commentCount);
+      }
+    }, function (key, values) {
+      const totalCount = values.reduce(function (acc, commentCount) {
+        return acc + commentCount;
+      }, 0);
+
+      return {
+        article: key,
+        commentCount: totalCount
+      };
+    }, {
+      out: { replace: 'hot_articles' }
+    });
+
+  const hotArticles = await db
+    .getCollection('hot_articles')
+    .find()
+    .sort({ value: -1 })
+    .toArray();
+
   res.render('articles', {
-    articles: (await articles
-      .mapReduce(function () {
-        emit(this._id, this);
-      }, function (key, values) {
-        return values; // no-multiple
-      }, {
-        out: { inline: 1 },
-        sort: { numberOfComments: 1 }
-      })
-    ).map(row => row.value)
+    articles: hotArticles.map(article => article._id)
   });
 });
 
@@ -50,7 +68,7 @@ router.get('/frequency', async (req, res) => {
 
       const matchedWords = text.match(wordPattern);
       const counts = matchedWords.reduce(function (stats, word) {
-        stats[word] = stats[word] ? stats[word] + 1 : 1;
+        stats[word] = (stats[word] || 0) + 1;
         return stats;
       }, {});
 
@@ -100,7 +118,7 @@ router.post('/:articleId/comments', async (req, res) => {
     $push: { comments: newComment }
   });
 
-  res.redirect(`/articles#${articleId}`);
+  res.redirect(`${req.headers.referer || ''}#${articleId}`);
 });
 
 
