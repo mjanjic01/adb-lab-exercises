@@ -1,0 +1,10 @@
+extends ../layouts/application.pug
+
+block content
+  each frequency in frequencies
+
+    ul
+      li #{frequency._id}
+        ul
+          each word, count in frequency.value
+            li #{word} - #{count}

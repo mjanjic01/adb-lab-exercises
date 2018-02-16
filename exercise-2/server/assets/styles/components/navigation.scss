@@ -1,0 +1,32 @@
+.navigation {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  border-bottom: 1px solid $gray-color;
+
+  & &__items {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: $white-color;
+
+    @include media(mobile up) {
+      display: flex;
+    }
+  }
+
+  & &__item {
+    white-space: nowrap;
+  }
+
+  & &__link {
+    @include interactable($white-color);
+
+    display: block;
+    color: $orange-color;
+    padding: 20px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+}

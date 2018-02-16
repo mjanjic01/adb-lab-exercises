@@ -1,0 +1,31 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: $black-color;
+  background-color: $white-color;
+}
+
+.container {
+  margin: 200px auto 0;
+  max-width: 540px;
+
+  @include media(mobile up) {
+    margin-top: 75px;
+    max-width: 540px;
+  }
+
+  @include media(tablet) {
+    max-width: 720px;
+  }
+
+  @include media(desktop) {
+    max-width: 960px;
+  }
+
+  @include media(large) {
+    max-width: 1140px;
+  }
+}
+
+hr {
+  border: 1px solid $input-bg-color;
+}
